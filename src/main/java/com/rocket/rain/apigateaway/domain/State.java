@@ -20,6 +20,10 @@ public class State implements Serializable {
     private int population;
     private float PIB;
     private float IDH;
+
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
     private boolean active;
     public State(){}
     public State(String id, String name, String acronym, String capital, Double area, int population, float PIB, float IDH) {
