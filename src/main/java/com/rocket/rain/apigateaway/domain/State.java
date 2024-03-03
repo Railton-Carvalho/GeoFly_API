@@ -1,5 +1,7 @@
 package com.rocket.rain.apigateaway.domain;
 
+import com.rocket.rain.apigateaway.dto.RequestState;
+import com.rocket.rain.apigateaway.dto.UpdateState;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -18,9 +20,10 @@ public class State implements Serializable {
     private int population;
     private float PIB;
     private float IDH;
-
-
+    private boolean active;
+    public State(){}
     public State(String id, String name, String acronym, String capital, Double area, int population, float PIB, float IDH) {
+        this.active = true;
         this.id = id;
         this.name = name;
         this.acronym = acronym;
@@ -29,8 +32,16 @@ public class State implements Serializable {
         this.population = population;
         this.PIB = PIB;
         this.IDH = IDH;
-    }
 
+    }
+    public State(RequestState requestState){
+        this(null,requestState.name(),requestState.acronym(),requestState.capital(),requestState.area(),
+                requestState.population(),requestState.PIB(),requestState.IDH());
+    }
+    public State(UpdateState updateState){
+        this(updateState.id(),updateState.name(),updateState.acronym(),updateState.capital(),updateState.area(),
+                updateState.population(),updateState.PIB(),updateState.IDH());
+    }
     public String getId() {
         return id;
     }
