@@ -19,6 +19,7 @@ public class State implements Serializable {
     private float PIB;
     private float IDH;
 
+
     public State(String id, String name, String acronym, String capital, Double area, int population, float PIB, float IDH) {
         this.id = id;
         this.name = name;

@@ -21,4 +21,9 @@ public class StateResource implements Serializable {
         List<State> listState = service.findAll();
         return ResponseEntity.ok().body(listState);
     }
+
+    public  ResponseEntity<State> findById(){
+        return null;
+    }
+
 }
