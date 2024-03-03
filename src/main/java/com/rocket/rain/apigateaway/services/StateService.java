@@ -23,6 +23,9 @@ public class StateService implements Serializable {
     public RequestState findStateByid(String id){
         return new RequestState(repository.findById(id));
     }
+    public RequestState findByAcronym(String acronym){
+        return new RequestState(repository.findByAcronym(acronym));
+    }
     public UpdateState createState(UpdateState state){
         return new UpdateState(repository.save(new State(state)));
     }

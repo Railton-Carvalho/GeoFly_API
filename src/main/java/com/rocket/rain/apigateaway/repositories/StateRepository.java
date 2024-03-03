@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StateRepository extends JpaRepository<State,Long> {
     State findById(String id);
-    //
+
+    State findByAcronym(String acronym);
 }

@@ -12,7 +12,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -28,12 +27,16 @@ public class StateResource implements Serializable {
         return ResponseEntity.ok().body(listState);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public  ResponseEntity<RequestState> findById(@PathVariable String id){
         RequestState requestState = service.findStateByid(id);
         return ResponseEntity.ok().body(requestState);
     }
-
+    @GetMapping("/acronym/{acronym}")
+    public ResponseEntity<RequestState> findByAcronym(@PathVariable String acronym){
+        RequestState  requestState = service.findByAcronym(acronym);
+        return ResponseEntity.ok().body(requestState);
+    }
     @PostMapping
     @Transactional
     public ResponseEntity<UpdateState> createState(@RequestBody UpdateState updateState){
