@@ -25,16 +25,22 @@ public class Region implements Serializable {
     
     public Region(){}
     
-    public Region(String id, String name, Double area, int population, float PIB, float IDH) {
+    public Region(String id, String name, Double area, float PIB, float IDH) {
         this.id = id;
         this.name = name;
         this.area = area;
-        this.population = population;
+        this.population = 0;
         this.PIB = PIB;
         this.IDH = IDH;
     }
+
+    public void updatePopulation(){
+        for(State state: states){
+            this.population += state.getPopulation();
+        }
+    }
     public Region(RequestRegion requestRegion){
-        this(null,requestRegion.name(),requestRegion.area(),requestRegion.population(),requestRegion.PIB(),requestRegion.IDH());
+        this(null,requestRegion.name(),requestRegion.area(),requestRegion.PIB(),requestRegion.IDH());
     }
     public String getId() {
         return id;

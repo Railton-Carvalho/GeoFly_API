@@ -5,6 +5,9 @@ import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.services.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +25,8 @@ public class StateResource implements Serializable {
     StateService service;
 
     @GetMapping
-    public ResponseEntity<List<RequestState>>findAll(){
-        List<RequestState> listState = service.findAll();
+    public ResponseEntity<Page<RequestState>>findAll(@PageableDefault(size = 3)Pageable pageable){
+       Page<RequestState> listState = service.findAll(pageable);
         return ResponseEntity.ok().body(listState);
     }
 

@@ -12,13 +12,11 @@ public record RequestRegion(
                             @NotBlank
                             String name,
                             Double area,
-                            @NotNull
-                            int population,
                             float PIB,
                             float IDH )implements Serializable {
 
     public RequestRegion(Region region){
-        this(region.getId(), region.getName(), region.getArea(),region.getPopulation(), region.getPIB(),region.getIDH());
+        this(region.getId(), region.getName(), region.getArea(), region.getPIB(),region.getIDH());
     }
 
 }

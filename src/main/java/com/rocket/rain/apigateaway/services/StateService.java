@@ -5,6 +5,8 @@ import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -17,11 +19,15 @@ public class StateService implements Serializable {
     @Autowired
     private StateRepository repository;
 
-    public List<RequestState> findAll(){
-        return repository.findAll().stream().map(RequestState::new).toList();
+    public Page<RequestState> findAll(Pageable pageable){
+        return repository.findAll(pageable).map(RequestState::new);
     }
     public RequestState findStateByid(String id){
-        return new RequestState(repository.findById(id));
+        Optional<State> state = repository.findById(id);
+        if(state.isPresent()){
+            return new RequestState(state.get());
+        }
+        return null;
     }
     public RequestState findByAcronym(String acronym){
         return new RequestState(repository.findByAcronym(acronym));
@@ -31,7 +37,7 @@ public class StateService implements Serializable {
     }
 
     public void deleteState(String id){
-        State state = repository.findById(id);
-        repository.delete(state);
+        Optional<State> state = repository.findById(id);
+        repository.delete(state.get());
     }
 }
