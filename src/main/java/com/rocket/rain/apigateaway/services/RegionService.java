@@ -60,5 +60,20 @@ public class RegionService implements Serializable {
         }
         return null;
     }
+    public void totalDelete(String id){
+        Optional<Region> region = repository.findById(id);
+        if (region.isPresent()){
+            repository.delete(region.get());
+        }
+
+    }
+    public void logicalDelete(String id){
+        Optional<Region> region = repository.findById(id);
+        if (region.isPresent()){
+            //implements later
+        }
+
+    }
+
 
 }

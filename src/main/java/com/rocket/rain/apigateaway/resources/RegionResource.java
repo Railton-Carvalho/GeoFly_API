@@ -54,5 +54,18 @@ public class RegionResource implements Serializable {
         return ResponseEntity.ok().body("Unsucefull Operation !");
 
     }
+    @DeleteMapping("/totalDelete/{id}")
+    @Transactional
+    public ResponseEntity<Void> totalDelete(@PathVariable String id){
+        service.totalDelete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/logicalDelete/{id}")
+    @Transactional
+    public ResponseEntity<Void> logicalDelete(@PathVariable String id){
+        service.logicalDelete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
