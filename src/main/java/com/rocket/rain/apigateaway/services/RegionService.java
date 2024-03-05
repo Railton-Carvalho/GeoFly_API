@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +29,13 @@ public class RegionService implements Serializable {
 
     public Page<RequestRegion> findAll(Pageable pageable){
         return repository.findAll(pageable).map(RequestRegion::new);
+    }
+    public RequestRegion findRegionById(String id){
+        Optional<Region> region = repository.findById(id);
+        if (region.isPresent()){
+            return new RequestRegion(region.get());
+        }
+        return null;
     }
 
     public RequestRegion createRegion(RequestRegion requestRegion){

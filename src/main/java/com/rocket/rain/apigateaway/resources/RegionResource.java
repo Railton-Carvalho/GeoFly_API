@@ -28,6 +28,12 @@ public class RegionResource implements Serializable {
         Page<RequestRegion> regions = service.findAll(pageable);
         return ResponseEntity.ok().body(regions);
     }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<RequestRegion> findRegionById(@PathVariable String id){
+        RequestRegion requestRegion = service.findRegionById(id);
+        return ResponseEntity.ok().body(requestRegion);
+    }
+
     @GetMapping("/showStates/{id}")
     @Transactional
     public ResponseEntity<List<RequestState>> showStates(@PathVariable String id){

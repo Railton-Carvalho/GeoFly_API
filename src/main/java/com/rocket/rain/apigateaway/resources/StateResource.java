@@ -31,7 +31,7 @@ public class StateResource implements Serializable {
     }
 
     @GetMapping("/id/{id}")
-    public  ResponseEntity<RequestState> findById(@PathVariable String id){
+    public  ResponseEntity<RequestState> findStateById(@PathVariable String id){
         RequestState requestState = service.findStateByid(id);
         return ResponseEntity.ok().body(requestState);
     }
