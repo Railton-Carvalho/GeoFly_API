@@ -1,5 +1,6 @@
 package com.rocket.rain.apigateaway.dto;
 
+import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.domain.State;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.NotBlank;
@@ -17,9 +18,12 @@ public record RequestState(
                            @NotNull
                            int population,
                            float PIB,
-                           float IDH) implements Serializable {
+                           float IDH,
+                            Region region
+                            ) implements Serializable {
 
     public RequestState(State state){
-        this(state.getName(), state.getAcronym(), state.getCapital(),state.getArea(),state.getPopulation(),state.getPIB(),state.getIDH());
+        this(state.getName(), state.getAcronym(), state.getCapital(),state.getArea(),state.getPopulation(),state.getPIB(),state.getIDH(),state.getRegion());
     }
+
 }

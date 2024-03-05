@@ -1,5 +1,6 @@
 package com.rocket.rain.apigateaway.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.rain.apigateaway.dto.RequestRegion;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Region implements Serializable {
     private float PIB;
     private float IDH;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "region")
     private Set<State> states = new HashSet<>();
     

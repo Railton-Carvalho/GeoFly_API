@@ -1,5 +1,6 @@
 package com.rocket.rain.apigateaway.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import jakarta.persistence.*;
@@ -22,7 +23,8 @@ public class State implements Serializable {
     private float IDH;
 
     @ManyToOne
-    @JoinColumn(name = "region_id")
+    @JoinTable(name = "tb_state_region", joinColumns = @JoinColumn(name = "state_id"),inverseJoinColumns =
+    @JoinColumn(name = "region_id"))
     private Region region;
     private boolean active;
     public State(){}
@@ -104,6 +106,22 @@ public class State implements Serializable {
 
     public float getIDH() {
         return IDH;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public void setIDH(float IDH) {

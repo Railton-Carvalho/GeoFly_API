@@ -1,8 +1,8 @@
 package com.rocket.rain.apigateaway.resources;
 
 import com.rocket.rain.apigateaway.domain.Region;
-import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestRegion;
+import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/geo/regions")
@@ -26,6 +27,12 @@ public class RegionResource implements Serializable {
     public ResponseEntity<Page<RequestRegion>> findAll(@PageableDefault(size = 2) Pageable pageable){
         Page<RequestRegion> regions = service.findAll(pageable);
         return ResponseEntity.ok().body(regions);
+    }
+    @GetMapping("/showStates/{id}")
+    @Transactional
+    public ResponseEntity<List<RequestState>> showStates(@PathVariable String id){
+        List<RequestState> states = service.showStates(id);
+        return ResponseEntity.ok().body(states);
     }
 
     @PostMapping
@@ -47,4 +54,5 @@ public class RegionResource implements Serializable {
         return ResponseEntity.ok().body("Unsucefull Operation !");
 
     }
+
 }
