@@ -21,28 +21,36 @@ public class Region implements Serializable {
     private float PIB;
     private float IDH;
 
+    @ManyToOne
+    @JoinTable(name = "tb_country_region", joinColumns = @JoinColumn(name = "country_id"),inverseJoinColumns =
+    @JoinColumn(name = "region_id"))
+    private Country country;
     @JsonIgnore
     @OneToMany(mappedBy = "region")
     private Set<State> states = new HashSet<>();
-    
+
+
     public Region(){}
     
-    public Region(String id, String name, Double area, float PIB, float IDH) {
+    public Region(String id, String name) {
         this.id = id;
         this.name = name;
-        this.area = area;
+        this.area = 0.0;
         this.population = 0;
-        this.PIB = PIB;
-        this.IDH = IDH;
+        this.PIB = 0;
+        this.IDH = 0;
     }
 
-    public void updatePopulation(){
+    public void updateMetrics(){
         for(State state: states){
             this.population += state.getPopulation();
+            this.area += state.getArea();
+            this.IDH += state.getIDH();
+            this.PIB += state.getPIB();
         }
     }
     public Region(RequestRegion requestRegion){
-        this(null,requestRegion.name(),requestRegion.area(),requestRegion.PIB(),requestRegion.IDH());
+        this(null,requestRegion.name());
     }
     public String getId() {
         return id;
@@ -94,6 +102,14 @@ public class Region implements Serializable {
 
     public Set<State> getStates() {
         return states;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
     @Override

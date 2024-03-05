@@ -1,6 +1,7 @@
 package com.rocket.rain.apigateaway.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rocket.rain.apigateaway.dto.RequestCountry;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_country")
-public class Country implements Serializable {
+public class Country implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -20,19 +21,35 @@ public class Country implements Serializable {
     private int population;
     private float PIB;
     private float IDH;
+    @JsonIgnore
+    @OneToMany(mappedBy = "country")
     private Set<Region> regions = new HashSet<>();
 
     public Country(){}
-    public Country(String id, String name, String capital, Double area, int population, float PIB, float IDH) {
-        this.id = id;
+    public Country(String name, String capital) {
         this.name = name;
         this.capital = capital;
-        this.area = area;
-        this.population = population;
-        this.PIB = PIB;
-        this.IDH = IDH;
+        this.area = 0.0;
+        this.population = 0;
+        this.PIB = 0;
+        this.IDH = 0;
     }
 
+    public Country(RequestCountry requestCountry){
+        this(requestCountry.name(),requestCountry.capital());
+    }
+
+    public void updateMetrics(){
+        //atualizando a população
+        for (Region region: regions){
+            this.population += region.getPopulation();
+            this.area += region.getArea();
+            this.PIB += region.getPIB();
+            this.IDH += region.getIDH();
+        }
+        //atualizar PIB
+        //atualizar IDH
+    }
     public String getId() {
         return id;
     }
@@ -105,4 +122,5 @@ public class Country implements Serializable {
     public int hashCode() {
         return Objects.hash(id, name, capital, area, population, PIB, IDH);
     }
+
 }

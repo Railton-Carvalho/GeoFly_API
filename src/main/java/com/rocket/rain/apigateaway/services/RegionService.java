@@ -48,7 +48,8 @@ public class RegionService implements Serializable {
             if (region.isPresent()){
                 state.get().setRegion(region.get());
                 region.get().getStates().add(state.get());
-                region.get().updatePopulation();
+                region.get().updateMetrics();
+                region.get().getCountry().updateMetrics();
                 //repository.save(region.get());
                 return true;
             }
