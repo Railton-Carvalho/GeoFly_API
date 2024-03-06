@@ -13,7 +13,17 @@ GeoFly é uma API desenvolvida com Spring Boot que visa auxiliar geógrafos e pr
 
 - Spring Boot
 - FlyAway Migration
+- Hibernate
 - Spring Data JPA
 - MySQL - WorkBench 8.0
 - Maven
 
+## Exemplos de Requisições
+
+### Cadastro de Estados/
+
+- **POST** `/geo/states/{stateId}`: Adiciona um novo estado no sistema.
+- **GET** `/geo/states/{stateId}`: Retorna a lista de estados cadastrados no sistema.
+- **GET** `/geo/states/id/{stateId}`: Retorna as informações de um estado específico por id.
+- **PUT** `/geo/states/update`: Atualiza as informações de um estado existente.
+- **DELETE** `/geo/states/{stateId}`: Remove um estado do sistema.
