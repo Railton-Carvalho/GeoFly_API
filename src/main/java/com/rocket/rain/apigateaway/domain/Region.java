@@ -29,7 +29,7 @@ public class Region implements Serializable {
     @OneToMany(mappedBy = "region")
     private Set<State> states = new HashSet<>();
 
-
+    private boolean active;
     public Region(){}
     
     public Region(String id, String name) {
@@ -39,6 +39,7 @@ public class Region implements Serializable {
         this.population = 0;
         this.PIB = 0;
         this.IDH = 0;
+        this.active = true;
     }
 
     public void updateMetrics(){
@@ -123,6 +124,14 @@ public class Region implements Serializable {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

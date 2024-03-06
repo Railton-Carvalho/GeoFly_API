@@ -29,7 +29,7 @@ public class State implements Serializable {
     private boolean active;
     public State(){}
     public State(String id, String name, String acronym, String capital, Double area, int population, float PIB, float IDH) {
-        this.active = true;
+
         this.id = id;
         this.name = name;
         this.acronym = acronym;
@@ -38,7 +38,7 @@ public class State implements Serializable {
         this.population = population;
         this.PIB = PIB;
         this.IDH = IDH;
-
+        this.active = true;
     }
     public State(RequestState requestState){
         this(null,requestState.name(),requestState.acronym(),requestState.capital(),requestState.area(),

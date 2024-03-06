@@ -50,7 +50,6 @@ public class RegionService implements Serializable {
                 region.get().getStates().add(state.get());
                 region.get().updateMetrics();
                 region.get().getCountry().updateMetrics();
-                //repository.save(region.get());
                 return true;
             }
         }
@@ -76,12 +75,13 @@ public class RegionService implements Serializable {
         }
 
     }
-    public void logicalDelete(String id){
+    public boolean logicalDelete(String id){
         Optional<Region> region = repository.findById(id);
         if (region.isPresent()){
-            //implements later
+            region.get().setActive(false);
+            return true;
         }
-
+        return false;
     }
 
 

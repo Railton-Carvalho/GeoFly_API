@@ -1,5 +1,6 @@
 package com.rocket.rain.apigateaway.services;
 
+import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
@@ -36,8 +37,20 @@ public class StateService implements Serializable {
         return new UpdateState(repository.save(new State(state)));
     }
 
-    public void deleteState(String id){
+    public boolean totalDelete(String id){
         Optional<State> state = repository.findById(id);
-        repository.delete(state.get());
+        if(state.isPresent()){
+            repository.delete(state.get());
+            return true;
+        }
+        return false;
+    }
+    public boolean logicalDelete(String id){
+        Optional<State> state = repository.findById(id);
+        if (state.isPresent()){
+            state.get().setActive(false);
+            return true;
+        }
+        return false;
     }
 }

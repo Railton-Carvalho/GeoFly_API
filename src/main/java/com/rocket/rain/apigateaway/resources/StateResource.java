@@ -51,8 +51,18 @@ public class StateResource implements Serializable {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<Void> deleteState(@PathVariable String id){
-        service.deleteState(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> totalState(@PathVariable String id){
+        if (service.totalDelete(id)){
+            return ResponseEntity.noContent().build();
+        }
+        return null;
+    }
+    @DeleteMapping("/logicalDelete/{id}")
+    @Transactional
+    public ResponseEntity<Void> logicalDelete(@PathVariable String id){
+        if (service.logicalDelete(id)){
+            return ResponseEntity.noContent().build();
+        }
+        return null;
     }
 }
