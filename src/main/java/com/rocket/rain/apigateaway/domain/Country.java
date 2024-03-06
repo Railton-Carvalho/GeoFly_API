@@ -40,15 +40,25 @@ public class Country implements Serializable{
     }
 
     public void updateMetrics(){
-        //atualizando a população
+        //atualizando as metricas do pais
+        float idhTotal = 0;
+        float pibTotal = 0;
+        resetMetrics();
         for (Region region: regions){
             this.population += region.getPopulation();
             this.area += region.getArea();
-            this.PIB += region.getPIB();
-            this.IDH += region.getIDH();
+            idhTotal += region.getPIB();
+            pibTotal += region.getIDH();
         }
-        //atualizar PIB
-        //atualizar IDH
+        System.out.println(idhTotal/regions.size());
+        this.setIDH(idhTotal/regions.size());
+        this.setPIB(pibTotal/regions.size());
+    }
+    public void resetMetrics(){
+        this.area = 0.0;
+        this.population = 0;
+        this.IDH = 0;
+        this.PIB = 0;
     }
     public String getId() {
         return id;

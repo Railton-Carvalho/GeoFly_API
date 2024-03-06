@@ -55,8 +55,8 @@ public class CountryService implements Serializable {
     public void reloadAll(String id){
         Optional<Country> country = repository.findById(id);
         if (country.isPresent()){
-            country.get().updateMetrics();
             country.get().getRegions().forEach(region -> region.updateMetrics());
+            country.get().updateMetrics();
         }
 
     }

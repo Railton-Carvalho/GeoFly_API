@@ -22,8 +22,8 @@ public class Region implements Serializable {
     private float IDH;
 
     @ManyToOne
-    @JoinTable(name = "tb_country_region", joinColumns = @JoinColumn(name = "country_id"),inverseJoinColumns =
-    @JoinColumn(name = "region_id"))
+    @JoinTable(name = "tb_country_region", joinColumns = @JoinColumn(name = "region_id"),inverseJoinColumns =
+    @JoinColumn(name = "country_id"))
     private Country country;
     @JsonIgnore
     @OneToMany(mappedBy = "region")
@@ -42,12 +42,25 @@ public class Region implements Serializable {
     }
 
     public void updateMetrics(){
+        //atualizando as metricas da região
+        float idhTotal = 0;
+        float pibTotal = 0;
+        resetMetrics();
         for(State state: states){
             this.population += state.getPopulation();
             this.area += state.getArea();
-            this.IDH += state.getIDH();
-            this.PIB += state.getPIB();
+            idhTotal += state.getIDH();
+            pibTotal += state.getPIB();
         }
+        System.out.println(idhTotal/states.size());
+        this.setIDH(idhTotal/states.size());
+        this.setPIB(pibTotal/states.size());
+    }
+    public void resetMetrics(){
+        this.area = 0.0;
+        this.population = 0;
+        this.IDH = 0;
+        this.PIB = 0;
     }
     public Region(RequestRegion requestRegion){
         this(null,requestRegion.name());
