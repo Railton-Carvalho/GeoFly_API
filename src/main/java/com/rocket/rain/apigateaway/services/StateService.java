@@ -21,7 +21,7 @@ public class StateService implements Serializable {
     private StateRepository repository;
 
     public Page<RequestState> findAll(Pageable pageable){
-        return repository.findAll(pageable).map(RequestState::new);
+        return repository.findAllByActiveTrue(pageable).map(RequestState::new);
     }
     public RequestState findStateByid(String id){
         Optional<State> state = repository.findById(id);
