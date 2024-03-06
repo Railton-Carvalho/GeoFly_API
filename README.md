@@ -20,10 +20,26 @@ GeoFly é uma API desenvolvida com Spring Boot que visa auxiliar geógrafos e pr
 
 ## Exemplos de Requisições
 
-### Cadastro de Estados/
+### EndPoint de Estados/
 
 - **POST** `/geo/states/{stateId}`: Adiciona um novo estado no sistema.
-- **GET** `/geo/states/{stateId}`: Retorna a lista de estados cadastrados no sistema.
+- **GET** `/geo/states/{stateId}`: Retorna a lista de estados ativos no sistema.
 - **GET** `/geo/states/id/{stateId}`: Retorna as informações de um estado específico por id.
+- **GET** `/geo/states/acronym/{acronym}`: Retorna um estado especifico de acordo com a sigla.
 - **PUT** `/geo/states/update`: Atualiza as informações de um estado existente.
-- **DELETE** `/geo/states/{stateId}`: Remove um estado do sistema.
+- **DELETE** `/geo/states/totalDelete/{stateId}`: Remove totalmente um estado do sistema.
+- **DELETE** `/geo/states/logicalDelete/{stateId}`: Remove logicamente um estado do sistema.
+
+### EndPoint de Regiões/
+
+- **POST** `/geo/regions/{stateId}`: Adiciona uma nova Região no sistema.
+- **GET** `/geo/regions/{stateId}`: Retorna a lista de Regiões ativas no sistema.
+- **GET** `/geo/regions/id/{stateId}`: Retorna as informações de uma Região específica por id.
+- **GET** `/geo/regions/showStates/{id}`: Retorna a lista de estados de uma Região especifica por ID.
+- **PUT** `/geo/regions/update`: Atualiza as informações de um estado existente.
+- **PUT** `/geo/regions/insertState/{regionId}/{stateId}`: Insere um estado ativo a uma Região especifica pelo Id.
+- **DELETE** `/geo/regions/totalDelete/{regionId}`: Remove totalmente uma Região do sistema.
+- **DELETE** `/geo/regions/logicalDelete/{regionId}`: Remove logicamente uma Região do sistema.
+
+### EndPoint de País/
+
