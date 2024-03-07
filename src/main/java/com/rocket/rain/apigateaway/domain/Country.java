@@ -25,6 +25,7 @@ public class Country implements Serializable{
     @OneToMany(mappedBy = "country")
     private Set<Region> regions = new HashSet<>();
 
+    private boolean Active;
     public Country(){}
     public Country(String name, String capital) {
         this.name = name;
@@ -33,6 +34,7 @@ public class Country implements Serializable{
         this.population = 0;
         this.PIB = 0;
         this.IDH = 0;
+        this.Active = true;
     }
 
     public Country(RequestCountry requestCountry){
@@ -118,6 +120,14 @@ public class Country implements Serializable{
 
     public void setIDH(float IDH) {
         this.IDH = IDH;
+    }
+
+    public boolean isActive() {
+        return Active;
+    }
+
+    public void setActive(boolean active) {
+        Active = active;
     }
 
     @Override

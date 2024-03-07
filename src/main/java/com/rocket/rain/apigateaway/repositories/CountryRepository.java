@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CountryRepository extends JpaRepository<Country,String> {
-    Page<State> findAllByActiveTrue(Pageable pageable);
+    Page<Country> findAllByActiveTrue(Pageable pageable);
 }
