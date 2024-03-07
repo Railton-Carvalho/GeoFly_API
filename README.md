@@ -43,3 +43,10 @@ GeoFly é uma API desenvolvida com Spring Boot que visa auxiliar geógrafos e pr
 
 ### EndPoint de País/
 
+- **POST** `/geo/coutries/{countryId}`: Adiciona um novo País o no sistema.
+- **GET** `/geo/countries/{stateId}`: Retorna a lista de Países ativos no sistema.
+- **GET** `/geo/countries/id/{stateId}`: Retorna as informações de uma País específica por id.
+- **GET** `/geo/countries/showRegions/{id}`: Retorna a lista de regióes de uma país especifico por ID.
+- **PUT** `/geo/countries/update`: Atualiza as informações de um País existente.
+- **PUT** `/geo/countries/reloadAll` : Atualiza dinamincamente os dados metricos entre as entindades do sistema ativas.
+- **POST** `geo/countries/insertRegion/{countryId}/{regionId}"`: Insere uma região ativa dentro de um País especifico pelo Id.
