@@ -26,7 +26,7 @@ public class StateResource implements Serializable {
     @Autowired
     StateService service;
 
-    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/x-yaml"})
     public ResponseEntity<Page<RequestState>>findAll(@PageableDefault(size = 3, sort = "name")Pageable pageable){
        Page<RequestState> listState = service.findAll(pageable);
         return ResponseEntity.ok().body(listState);
@@ -34,23 +34,27 @@ public class StateResource implements Serializable {
 
     @GetMapping(value = "/id/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE,
-                        MediaType.APPLICATION_XML_VALUE})
+                        MediaType.APPLICATION_XML_VALUE,
+                        "application/x-yaml"})
     public  ResponseEntity<RequestState> findStateById(@PathVariable String id){
         RequestState requestState = service.findStateByid(id);
         return ResponseEntity.ok().body(requestState);
     }
     @GetMapping(value = "/acronym/{acronym}",
                 produces = {MediaType.APPLICATION_JSON_VALUE,
-                        MediaType.APPLICATION_XML_VALUE})
+                            MediaType.APPLICATION_XML_VALUE,
+                            "application/x-yaml"})
     public ResponseEntity<RequestState> findByAcronym(@PathVariable String acronym){
         RequestState  requestState = service.findByAcronym(acronym);
         return ResponseEntity.ok().body(requestState);
     }
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,//params for content negotiation
-                            MediaType.APPLICATION_XML_VALUE},
+                            MediaType.APPLICATION_XML_VALUE,
+                            "application/x-yaml"},
 
                 produces = {MediaType.APPLICATION_JSON_VALUE,
-                            MediaType.APPLICATION_XML_VALUE})
+                            MediaType.APPLICATION_XML_VALUE,
+                            "application/x-yaml"})
     @Transactional
     public ResponseEntity<UpdateState> createState(@RequestBody UpdateState updateState){
         updateState = service.createState(updateState);
