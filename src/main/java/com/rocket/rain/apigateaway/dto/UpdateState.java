@@ -22,6 +22,7 @@ public record UpdateState(
         float IDH) implements Serializable {
 
     public UpdateState(State state){
-        this(state.getId(),state.getName(), state.getAcronym(), state.getCapital(),state.getArea(),state.getPopulation(),state.getPIB(),state.getIDH());
+        this(state.getId(),state.getName(), state.getAcronym(), state.getCapital(),state.getArea(),state.getPopulation(),
+                state.getPIB(),state.getIDH());
     }
 }

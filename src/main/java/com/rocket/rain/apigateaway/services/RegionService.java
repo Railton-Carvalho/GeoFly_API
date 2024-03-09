@@ -62,7 +62,7 @@ public class RegionService implements Serializable {
         if(region.isPresent()){
             System.out.println(region.get().getStates());
             for (State state: region.get().getStates()){
-                states.add(new RequestState(state));
+                states.add(new RequestState(state,null));
             }
             return states;
         }

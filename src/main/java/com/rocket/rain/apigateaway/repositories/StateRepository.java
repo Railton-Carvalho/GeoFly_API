@@ -13,7 +13,7 @@ public interface StateRepository extends JpaRepository<State,String> {
     Optional<State> findById(String id);
 
     Page<State> findAllByActiveTrue(Pageable pageable);
-    State findByAcronym(String acronym);
+    Optional<State> findByAcronym(String acronym);
 
     List<State> findByRegionId(String id);
 }

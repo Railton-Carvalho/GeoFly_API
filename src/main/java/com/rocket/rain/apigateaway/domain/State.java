@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import jakarta.persistence.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -48,12 +49,13 @@ public class State implements Serializable {
         this(updateState.id(),updateState.name(),updateState.acronym(),updateState.capital(),updateState.area(),
                 updateState.population(),updateState.PIB(),updateState.IDH());
     }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String key) {
+        this.id = key;
     }
 
     public String getName() {
@@ -132,12 +134,13 @@ public class State implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         State state = (State) o;
         return population == state.population && Float.compare(PIB, state.PIB) == 0 && Float.compare(IDH, state.IDH) == 0 && Objects.equals(id, state.id) && Objects.equals(name, state.name) && Objects.equals(acronym, state.acronym) && Objects.equals(capital, state.capital) && Objects.equals(area, state.area);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, acronym, capital, area, population, PIB, IDH);
+        return Objects.hash(super.hashCode(), id, name, acronym, capital, area, population, PIB, IDH);
     }
 }
