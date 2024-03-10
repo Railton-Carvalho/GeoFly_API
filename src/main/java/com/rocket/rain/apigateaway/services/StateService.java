@@ -2,7 +2,7 @@ package com.rocket.rain.apigateaway.services;
 
 import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestState;
-import com.rocket.rain.apigateaway.dto.link.StateLink;
+import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import com.rocket.rain.apigateaway.resources.StateResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class StateService implements Serializable {
         //adicionando links em todos os DTOS
         Page<RequestState> states = repository.findAllByActiveTrue(pageable).map(
                 response -> new RequestState(
-                        response,new StateLink().add(linkTo(methodOn(StateResource.class).findStateById(response.getId())).withSelfRel()))
+                        response,new DtoLink().add(linkTo(methodOn(StateResource.class).findStateById(response.getId())).withSelfRel()))
         );
 
         return states;
@@ -35,26 +35,26 @@ public class StateService implements Serializable {
         Optional<State> state = repository.findById(id);
 
         if(state.isPresent()){
-            StateLink stateLink = new StateLink();
-            stateLink.add(linkTo(methodOn(StateResource.class).findStateById(id)).withSelfRel());
-            return new RequestState(state.get(),stateLink);
+            DtoLink dtoLink = new DtoLink();
+            dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(id)).withSelfRel());
+            return new RequestState(state.get(), dtoLink);
         }
         return null;
     }
     public RequestState findByAcronym(String acronym){
         Optional<State> state = repository.findByAcronym(acronym);
         if (state.isPresent()){
-            StateLink stateLink = new StateLink();
-            stateLink.add(linkTo(methodOn(StateResource.class).findByAcronym(acronym)).withSelfRel());
-            return new RequestState(state.get(),stateLink);
+            DtoLink dtoLink = new DtoLink();
+            dtoLink.add(linkTo(methodOn(StateResource.class).findByAcronym(acronym)).withSelfRel());
+            return new RequestState(state.get(), dtoLink);
         }
         return null;
     }
     public RequestState createState(RequestState state){
-        StateLink stateLink = new StateLink();
+        DtoLink dtoLink = new DtoLink();
         State entity = repository.save(new State(state));
-        stateLink.add(linkTo(methodOn(StateResource.class).findStateById(entity.getId())).withSelfRel());
-        return new RequestState(entity,stateLink);
+        dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(entity.getId())).withSelfRel());
+        return new RequestState(entity, dtoLink);
     }
 
     public boolean totalDelete(String id){

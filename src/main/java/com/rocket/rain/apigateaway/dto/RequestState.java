@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.domain.State;
-import com.rocket.rain.apigateaway.dto.link.StateLink;
+import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.hateoas.Links;
@@ -27,9 +27,10 @@ public record RequestState(
         Links links
                             ) implements Serializable {
 
-    public RequestState(State state, StateLink stateLink) {
+
+    public RequestState(State state, DtoLink dtoLink) {
         this(state.getName(), state.getAcronym(), state.getCapital(), state.getArea(), state.getPopulation(),
-                state.getPIB(), state.getIDH(), state.getRegion(),stateLink.getLinks());
+                state.getPIB(), state.getIDH(), state.getRegion(), dtoLink.getLinks());
     }
 
 }
