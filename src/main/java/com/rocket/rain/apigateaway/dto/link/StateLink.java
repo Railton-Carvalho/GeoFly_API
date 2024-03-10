@@ -1,4 +1,4 @@
-package com.rocket.rain.apigateaway.dto;
+package com.rocket.rain.apigateaway.dto.link;
 
 import org.springframework.hateoas.RepresentationModel;
 

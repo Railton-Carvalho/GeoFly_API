@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -54,20 +55,20 @@ public class StateResource implements Serializable {
                             MediaType.APPLICATION_XML,
                             MediaType.APPLICATION_YML})
     @Transactional
-    public ResponseEntity<UpdateState> createState(@RequestBody UpdateState updateState){
-        updateState = service.createState(updateState);
+    public ResponseEntity<RequestState> createState(@RequestBody RequestState requestState){
+        requestState = service.createState(requestState);
         URI uri =
-                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id").buildAndExpand(new State(updateState)).toUri();
-        return ResponseEntity.created(uri).body(updateState);
+                ServletUriComponentsBuilder.fromCurrentRequest().path("/{id").buildAndExpand(new State(requestState)).toUri();
+        return ResponseEntity.created(uri).body(requestState);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/totalDelete/{id}")
     @Transactional
     public ResponseEntity<Void> totalState(@PathVariable String id){
         if (service.totalDelete(id)){
             return ResponseEntity.noContent().build();
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     @DeleteMapping("/logicalDelete/{id}")
     @Transactional
@@ -75,6 +76,6 @@ public class StateResource implements Serializable {
         if (service.logicalDelete(id)){
             return ResponseEntity.noContent().build();
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

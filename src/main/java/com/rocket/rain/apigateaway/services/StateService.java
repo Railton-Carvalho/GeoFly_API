@@ -2,8 +2,7 @@ package com.rocket.rain.apigateaway.services;
 
 import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestState;
-import com.rocket.rain.apigateaway.dto.StateLink;
-import com.rocket.rain.apigateaway.dto.UpdateState;
+import com.rocket.rain.apigateaway.dto.link.StateLink;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import com.rocket.rain.apigateaway.resources.StateResource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,13 @@ public class StateService implements Serializable {
     private StateRepository repository;
 
     public Page<RequestState> findAll(Pageable pageable){
-        return repository.findAllByActiveTrue(pageable).map(response -> new RequestState(response,null));
+        //adicionando links em todos os DTOS
+        Page<RequestState> states = repository.findAllByActiveTrue(pageable).map(
+                response -> new RequestState(
+                        response,new StateLink().add(linkTo(methodOn(StateResource.class).findStateById(response.getId())).withSelfRel()))
+        );
+
+        return states;
     }
     public RequestState findStateByid(String id){
         Optional<State> state = repository.findById(id);
@@ -45,8 +50,11 @@ public class StateService implements Serializable {
         }
         return null;
     }
-    public UpdateState createState(UpdateState state){
-        return new UpdateState(repository.save(new State(state)));
+    public RequestState createState(RequestState state){
+        StateLink stateLink = new StateLink();
+        State entity = repository.save(new State(state));
+        stateLink.add(linkTo(methodOn(StateResource.class).findStateById(entity.getId())).withSelfRel());
+        return new RequestState(entity,stateLink);
     }
 
     public boolean totalDelete(String id){

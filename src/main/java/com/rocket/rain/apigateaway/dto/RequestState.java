@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.domain.State;
+import com.rocket.rain.apigateaway.dto.link.StateLink;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.hateoas.Links;
