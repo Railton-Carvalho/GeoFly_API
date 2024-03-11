@@ -143,4 +143,5 @@ public class State implements Serializable {
     public int hashCode() {
         return Objects.hash(super.hashCode(), id, name, acronym, capital, area, population, PIB, IDH);
     }
+
 }

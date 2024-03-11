@@ -5,6 +5,7 @@ import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import com.rocket.rain.apigateaway.resources.StateResource;
+import com.rocket.rain.apigateaway.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,23 +33,16 @@ public class StateService implements Serializable {
         return states;
     }
     public RequestState findStateByid(String id){
-        Optional<State> state = repository.findById(id);
-
-        if(state.isPresent()){
-            DtoLink dtoLink = new DtoLink();
-            dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(id)).withSelfRel());
-            return new RequestState(state.get(), dtoLink);
-        }
-        return null;
+        State state = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        DtoLink dtoLink = new DtoLink();
+        dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(id)).withSelfRel());
+        return new RequestState(state, dtoLink);
     }
     public RequestState findByAcronym(String acronym){
-        Optional<State> state = repository.findByAcronym(acronym);
-        if (state.isPresent()){
-            DtoLink dtoLink = new DtoLink();
-            dtoLink.add(linkTo(methodOn(StateResource.class).findByAcronym(acronym)).withSelfRel());
-            return new RequestState(state.get(), dtoLink);
-        }
-        return null;
+        State state = repository.findByAcronym(acronym).orElseThrow(() -> new ResourceNotFoundException(acronym));
+        DtoLink dtoLink = new DtoLink();
+        dtoLink.add(linkTo(methodOn(StateResource.class).findByAcronym(acronym)).withSelfRel());
+        return new RequestState(state, dtoLink);
     }
     public RequestState createState(RequestState state){
         DtoLink dtoLink = new DtoLink();
@@ -58,12 +52,9 @@ public class StateService implements Serializable {
     }
 
     public boolean totalDelete(String id){
-        Optional<State> state = repository.findById(id);
-        if(state.isPresent()){
-            repository.delete(state.get());
-            return true;
-        }
-        return false;
+        State state = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        repository.delete(state);
+        return true;
     }
     public boolean logicalDelete(String id){
         Optional<State> state = repository.findById(id);

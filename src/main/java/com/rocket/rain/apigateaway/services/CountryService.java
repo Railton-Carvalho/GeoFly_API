@@ -5,6 +5,7 @@ import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.dto.RequestCountry;
 import com.rocket.rain.apigateaway.repositories.CountryRepository;
 import com.rocket.rain.apigateaway.repositories.RegionRepository;
+import com.rocket.rain.apigateaway.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,11 +29,9 @@ public class CountryService implements Serializable {
         return pages;
     }
     public RequestCountry findCountryById(String id){
-        Optional<Country> country = repository.findById(id);
-        if (country.isPresent()){
-            return new RequestCountry(country.get());
-        }
-        return null;
+        Country country = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        return new RequestCountry(country);
+
     }
 
     public RequestCountry createCountry(RequestCountry requestCountry) {
@@ -40,17 +39,13 @@ public class CountryService implements Serializable {
     }
 
     public boolean insertRegion(String countryId, String regionId){
-        Optional<Region> region = externalRepository.findById(regionId);
-        if (region.isPresent()){
-            Optional<Country> country = repository.findById(countryId);
-            if (country.isPresent()){
-                country.get().getRegions().add(region.get());
-                region.get().setCountry(country.get());
-                country.get().updateMetrics();
-                return true;
-            }
-        }
-        return false;
+        Region region =
+                externalRepository.findById(regionId).orElseThrow(() -> new ResourceNotFoundException(regionId));
+        Country country = repository.findById(countryId).orElseThrow(() -> new ResourceNotFoundException(countryId));
+        country.getRegions().add(region);
+        region.setCountry(country);
+        country.updateMetrics();
+        return true;
     }
     public void reloadAll(String id){
         Optional<Country> country = repository.findById(id);

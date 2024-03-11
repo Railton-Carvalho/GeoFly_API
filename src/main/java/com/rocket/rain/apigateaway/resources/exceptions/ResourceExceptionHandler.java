@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
 
@@ -16,8 +17,7 @@ public class ResourceExceptionHandler{
     public ResponseEntity<StandardError> searchNotFound(ResourceNotFoundException e, HttpServletRequest request){
         String error = "Resource not Found";
         HttpStatus status = HttpStatus.NOT_FOUND;
-        StandardError err = new StandardError(Instant.now(),status.value(),error,e.getMessage(),request.getRequestURI());
-        System.out.println(request.getMethod());
+        StandardError err = new StandardError(java.time.Instant.now(),status.value(),error,e.getMessage(),request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 
@@ -29,4 +29,13 @@ public class ResourceExceptionHandler{
         System.out.println(request.getMethod());
         return ResponseEntity.status(status).body(err);
     }
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<StandardError> noresourceFound(NoResourceFoundException e, HttpServletRequest request){
+        String error = "Controller not Found";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError err = new StandardError(java.time.Instant.now(),status.value(),error,e.getMessage(), request.getRequestURI());
+        System.out.println(request.getMethod());
+        return ResponseEntity.status(status).body(err);
+    }
+
 }
