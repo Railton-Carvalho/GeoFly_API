@@ -2,6 +2,7 @@ package com.rocket.rain.apigateaway.services;
 
 import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestState;
+import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import com.rocket.rain.apigateaway.resources.StateResource;
@@ -50,6 +51,19 @@ public class StateService implements Serializable {
         dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(entity.getId())).withSelfRel());
         return new RequestState(entity, dtoLink);
     }
+
+    public void updateState(UpdateState requestState){
+        if (requestState != null){
+            State state =
+                    repository.findById(requestState.id()).orElseThrow(()-> new ResourceNotFoundException(requestState.id()));
+            state.setPopulation(requestState.population());
+            state.setArea(requestState.area());
+            state.setArea(requestState.area());
+            state.setCapital(requestState.capital());
+        }
+
+    }
+
 
     public boolean totalDelete(String id){
         State state = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));

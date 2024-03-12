@@ -5,6 +5,7 @@ import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.services.StateService;
 import com.rocket.rain.apigateaway.util.MediaType;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,11 +56,20 @@ public class StateResource implements Serializable {
                             MediaType.APPLICATION_XML,
                             MediaType.APPLICATION_YML})
     @Transactional
-    public ResponseEntity<RequestState> createState(@RequestBody RequestState requestState){
+    public ResponseEntity<RequestState> createState(@RequestBody @Valid RequestState requestState){
         requestState = service.createState(requestState);
         URI uri =
                 ServletUriComponentsBuilder.fromCurrentRequest().path("/{id").buildAndExpand(new State(requestState)).toUri();
         return ResponseEntity.created(uri).body(requestState);
+    }
+
+    @Transactional
+    @PutMapping(consumes ={MediaType.APPLICATION_JSON,//params for content negotiation
+            MediaType.APPLICATION_XML,
+            MediaType.APPLICATION_YML})
+    public ResponseEntity<Void> updateState(@RequestBody @Valid UpdateState updateState){
+        service.updateState(updateState);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/totalDelete/{id}")
