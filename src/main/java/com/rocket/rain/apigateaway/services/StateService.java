@@ -6,8 +6,10 @@ import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import com.rocket.rain.apigateaway.repositories.StateRepository;
 import com.rocket.rain.apigateaway.resources.StateResource;
+import com.rocket.rain.apigateaway.services.exceptions.RequiredObjectIsNullException;
 import com.rocket.rain.apigateaway.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.MethodWrapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,25 +48,25 @@ public class StateService implements Serializable {
         return new RequestState(state, dtoLink);
     }
     public RequestState createState(RequestState state){
+        if (state == null) throw new RequiredObjectIsNullException();
         DtoLink dtoLink = new DtoLink();
         State entity = repository.save(new State(state));
         dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(entity.getId())).withSelfRel());
         return new RequestState(entity, dtoLink);
     }
 
-    public void updateState(UpdateState requestState){
-        if (requestState != null){
-            State state =
-                    repository.findById(requestState.id()).orElseThrow(()-> new ResourceNotFoundException(requestState.id()));
-            state.setPopulation(requestState.population());
-            state.setArea(requestState.area());
-            state.setArea(requestState.area());
-            state.setCapital(requestState.capital());
-        }
+    public UpdateState updateState(UpdateState requestState){
+        if (requestState == null) throw new RequiredObjectIsNullException();
+        State state =
+                repository.findById(requestState.id()).orElseThrow(()-> new ResourceNotFoundException(requestState.id()));
+        state.setPopulation(requestState.population());
+        state.setArea(requestState.area());
+        state.setArea(requestState.area());
+        state.setCapital(requestState.capital());
+        return new UpdateState(state);
+
 
     }
-
-
     public boolean totalDelete(String id){
         State state = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
         repository.delete(state);

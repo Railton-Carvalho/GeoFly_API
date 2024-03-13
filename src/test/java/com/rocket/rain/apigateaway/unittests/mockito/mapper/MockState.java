@@ -2,6 +2,7 @@ package com.rocket.rain.apigateaway.unittests.mockito.mapper;
 
 import com.rocket.rain.apigateaway.domain.State;
 import com.rocket.rain.apigateaway.dto.RequestState;
+import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.dto.link.DtoLink;
 import com.rocket.rain.apigateaway.resources.StateResource;
 
@@ -69,5 +70,19 @@ public class MockState implements Serializable{
 //        dtoLink.add(linkTo(methodOn(StateResource.class).findStateById(State.getId())).withSelfRel());
         RequestState requestState = new RequestState(State,dtoLink );
         return requestState;
+    }
+    public UpdateState mockUpdateDto(Integer number) {
+        State State = new State();
+        State.setId(number.toString());
+        State.setName("First Name Test" + number);
+        State.setCapital("Capital Test" + number);
+        State.setAcronym("Acronym Test" + number);
+        State.setArea(number.doubleValue());
+        State.setPopulation(((number % 2)==0) ? number*1200 : number*900);
+        State.setIDH(number.floatValue());
+        State.setPIB(number.floatValue());
+
+        UpdateState updateState = new UpdateState(State);
+        return updateState;
     }
 }

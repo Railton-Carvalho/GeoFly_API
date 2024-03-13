@@ -67,9 +67,9 @@ public class StateResource implements Serializable {
     @PutMapping(consumes ={MediaType.APPLICATION_JSON,//params for content negotiation
             MediaType.APPLICATION_XML,
             MediaType.APPLICATION_YML})
-    public ResponseEntity<Void> updateState(@RequestBody @Valid UpdateState updateState){
-        service.updateState(updateState);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UpdateState> updateState(@RequestBody @Valid UpdateState updateState){
+        UpdateState stateDto = service.updateState(updateState);
+        return ResponseEntity.ok().body(stateDto);
     }
 
     @DeleteMapping("/totalDelete/{id}")

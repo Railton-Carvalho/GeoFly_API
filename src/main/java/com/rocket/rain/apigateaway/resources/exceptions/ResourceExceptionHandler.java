@@ -1,6 +1,7 @@
 package com.rocket.rain.apigateaway.resources.exceptions;
 
 import com.rocket.rain.apigateaway.services.exceptions.DatabaseException;
+import com.rocket.rain.apigateaway.services.exceptions.RequiredObjectIsNullException;
 import com.rocket.rain.apigateaway.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,18 @@ public class ResourceExceptionHandler{
                 request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<StandardError> requiredObjectIsNullException(MethodArgumentNotValidException e,
+                                                                             HttpServletRequest request){
+        String error = "Required Object is Null";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        System.out.println(e.getFieldErrors().toString());
+        StandardError err = new StandardError(java.time.Instant.now(),status.value(),error,
+                extractFieldsWithError(e.getFieldErrors().toString()),
+                request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
     public static String extractFieldsWithError(String errorMessage) {
         //reponsael por filtrar a mensagem de erro retornada pela exception ArgumentNotValid
         List<String> fieldNames = new ArrayList<>();
