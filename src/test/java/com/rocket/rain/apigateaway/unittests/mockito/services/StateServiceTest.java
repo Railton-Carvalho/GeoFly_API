@@ -16,7 +16,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,15 +57,15 @@ class StateServiceTest {
          //comportamento do findById no banco simulado
          when(repository.findById("1")).thenReturn(Optional.of(state));
 
-         RequestState result = service.findStateByid("1");
-         assertNotNull(result);
-         assertNotNull(result.name());
-         assertNotNull(result.links());
-         assertTrue(result.toString().contains("</geo/states/id/1>;rel=\"self\"]"));
+         RequestState stateOne = service.findStateByid("1");
+         assertNotNull(stateOne);
+         assertNotNull(stateOne.name());
+         assertNotNull(stateOne.links());
+         assertTrue(stateOne.toString().contains("</geo/states/id/1>;rel=\"self\"]"));
 
-         assertEquals("First Name Test1",result.name());
-         assertEquals("Capital Test1",result.capital());
-         assertEquals("Acronym Test1",result.acronym());
+         assertEquals("First Name Test1",stateOne.name());
+         assertEquals("Capital Test1",stateOne.capital());
+         assertEquals("Acronym Test1",stateOne.acronym());
     }
 
     @Test
@@ -77,20 +83,20 @@ class StateServiceTest {
         when(repository.save(any(State.class))).thenReturn(persisted);
 
 
-        var result = service.createState(requestState);
-//        State result1 = repository.save(entity);
+        var stateOne = service.createState(requestState);
+//        State stateOne1 = repository.save(entity);
 //        DtoLink link = new DtoLink();
-//        link.add(linkTo(methodOn(StateResource.class).findStateById(result1.getId())).withSelfRel());
+//        link.add(linkTo(methodOn(StateResource.class).findStateById(stateOne1.getId())).withSelfRel());
 //
-//        RequestState result = new RequestState(result1,link);
-        assertNotNull(result);
-        assertNotNull(result.name());
-        assertNotNull(result.links());
-        assertTrue(result.toString().contains("</geo/states/id/1>;rel=\"self\"]"));
+//        RequestState stateOne = new RequestState(stateOne1,link);
+        assertNotNull(stateOne);
+        assertNotNull(stateOne.name());
+        assertNotNull(stateOne.links());
+        assertTrue(stateOne.toString().contains("</geo/states/id/1>;rel=\"self\"]"));
 
-        assertEquals("First Name Test1",result.name());
-        assertEquals("Capital Test1",result.capital());
-        assertEquals("Acronym Test1",result.acronym());
+        assertEquals("First Name Test1",stateOne.name());
+        assertEquals("Capital Test1",stateOne.capital());
+        assertEquals("Acronym Test1",stateOne.acronym());
     }
     @Test
     @DisplayName("Null Create State")
@@ -112,15 +118,15 @@ class StateServiceTest {
 
         when(repository.findById("1")).thenReturn(Optional.of(entity));
 
-        UpdateState result = service.updateState(vo);
+        UpdateState stateOne = service.updateState(vo);
 
-        assertNotNull(result);
-        assertNotNull(result.id());
-        assertNotNull(result.name());
+        assertNotNull(stateOne);
+        assertNotNull(stateOne.id());
+        assertNotNull(stateOne.name());
 
-        assertEquals("First Name Test1",result.name());
-        assertEquals("Capital Test1",result.capital());
-        assertEquals("Acronym Test1",result.acronym());
+        assertEquals("First Name Test1",stateOne.name());
+        assertEquals("Capital Test1",stateOne.capital());
+        assertEquals("Acronym Test1",stateOne.acronym());
     }
     @Test
     @DisplayName("Null Update State")
@@ -136,6 +142,35 @@ class StateServiceTest {
     }
     @Test
     void findAll() {
+        List<State> list = input.mockEntityList();
+
+        PageRequest pageRequest = PageRequest.of(0, 114);
+
+        // Converta a lista em uma página usando o PageImpl
+        Page<State> page = new PageImpl<>(list, pageRequest, list.size());
+
+
+        when(repository.findAllByActiveTrue(page.getPageable())).thenReturn(page);
+
+        var states = service.findAllByActiveTrue(page.getPageable());
+
+        assertNotNull(states);
+        assertEquals(14, states.getTotalElements());
+
+        int i = 0;
+        for(RequestState requestState:states.getContent()){
+            assertNotNull(requestState);
+            assertNotNull(requestState.name());
+            assertNotNull(requestState.links());
+
+            assertTrue(requestState.toString().contains("</geo/states/id/"+i+">;rel=\"self\"]"));
+
+            assertEquals("First Name Test"+i, requestState.name());
+            assertEquals("Capital Test"+i, requestState.capital());
+            assertEquals("Acronym Test"+i, requestState.acronym());
+            i++;
+        }
+
     }
     @Test
     void findByAcronym() {

@@ -26,7 +26,7 @@ public class StateService implements Serializable {
     @Autowired
     private StateRepository repository;
 
-    public Page<RequestState> findAll(Pageable pageable){
+    public Page<RequestState> findAllByActiveTrue(Pageable pageable){
         //adicionando links em todos os DTOS
         Page<RequestState> states = repository.findAllByActiveTrue(pageable).map(
                 response -> new RequestState(

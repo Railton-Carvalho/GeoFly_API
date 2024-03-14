@@ -44,6 +44,7 @@ public class MockState implements Serializable{
 
     public State mockEntity(Integer number) {
         State State = new State();
+        State.setId(number.toString());
         State.setName("First Name Test" + number);
         State.setCapital("Capital Test" + number);
         State.setAcronym("Acronym Test" + number);

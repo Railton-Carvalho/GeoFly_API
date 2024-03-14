@@ -28,7 +28,7 @@ public class StateResource implements Serializable {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public ResponseEntity<Page<RequestState>>findAll(@PageableDefault(size = 3, sort = "name")Pageable pageable){
-       Page<RequestState> listState = service.findAll(pageable);
+       Page<RequestState> listState = service.findAllByActiveTrue(pageable);
         return ResponseEntity.ok().body(listState);
     }
 
