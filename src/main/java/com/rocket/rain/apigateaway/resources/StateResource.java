@@ -5,6 +5,7 @@ import com.rocket.rain.apigateaway.dto.RequestState;
 import com.rocket.rain.apigateaway.dto.UpdateState;
 import com.rocket.rain.apigateaway.services.StateService;
 import com.rocket.rain.apigateaway.util.MediaType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +22,12 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/geo/states")
+@Tag(name = "State", description = "EndPoints to Managing States")
 public class StateResource implements Serializable {
 
     @Autowired
     StateService service;
+
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     public ResponseEntity<Page<RequestState>>findAll(@PageableDefault(size = 3, sort = "name")Pageable pageable){

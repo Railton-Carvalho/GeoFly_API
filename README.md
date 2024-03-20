@@ -19,6 +19,7 @@ GeoFly é uma API desenvolvida com Spring Boot que visa auxiliar geógrafos e pr
 - Maven
 - Junit 5
 - Mockito
+- Swagger-OpenApi
 
 
 ## Exemplos de Requisições

@@ -5,6 +5,7 @@ import com.rocket.rain.apigateaway.domain.Region;
 import com.rocket.rain.apigateaway.dto.RequestCountry;
 import com.rocket.rain.apigateaway.dto.RequestRegion;
 import com.rocket.rain.apigateaway.services.CountryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/geo/countries")
+@Tag(name = "Country", description = "EndPoints to Managing Country")
 public class CountryResource implements Serializable {
     @Autowired
     CountryService service;
