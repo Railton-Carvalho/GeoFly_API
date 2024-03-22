@@ -2,6 +2,7 @@ package com.rocket.rain.apigateaway.config;
 
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,10 @@ public class OpenApiConfig {
                         .title("GeoFly APi")
                         .version("v1")
                         .description("Geo Api Information Management")
+                        .contact(new Contact()
+                                .name("GeoFly API")
+                                .email("rocketsquad@gmail.com")
+                        )
                         .termsOfService("https://api.rocketsquad.com.br/geoflyapi/terms")
                         .license(new License().name("Apache 2.0").url("https://api.rocketsquad.com.br/geoflyapi"))
 
