@@ -1,4 +1,4 @@
-package com.rocket.rain.apigateaway;
+package com.rocket.rain.apigateaway.integrationtest.testcontainers;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -16,7 +16,7 @@ public class AbstractIntegrationTest {
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-        static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.29");
+        static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.30");
 
         private static void startContainers() {
             Startables.deepStart(Stream.of(mysql)).join();
