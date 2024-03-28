@@ -1,0 +1,24 @@
+# DB CONFIG
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/geoflydb
+    username: root
+    password: '1369'
+
+  # JPA CONFIG
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+      format_sql: true
+    show-sql: false
+
+cors:
+  originPatters:
+    - http://localhost:8080
+    - http://sqrocket.com.br
+    - http://localhost:3000
+
+server:
+  error:
+    include-stacktrace: never

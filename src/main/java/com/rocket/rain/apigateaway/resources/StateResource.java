@@ -26,6 +26,7 @@ import java.net.URI;
 import java.util.Locale;
 
 
+//@CrossOrigin
 @RestController
 @RequestMapping("/geo/states")
 @Tag(name = "State", description = "EndPoints to Managing States")
@@ -59,6 +60,7 @@ public class StateResource implements Serializable {
         return ResponseEntity.ok().body(listState);
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/id/{id}",
             produces = {MediaType.APPLICATION_JSON,
                         MediaType.APPLICATION_XML,
@@ -81,11 +83,12 @@ public class StateResource implements Serializable {
         RequestState requestState = service.findStateByid(id);
         return ResponseEntity.ok().body(requestState);
     }
+    @CrossOrigin(origins = {"http://localhost:8080","http://sqrocket.com.br"})
     @GetMapping(value = "/acronym/{acronym}",
                 produces = {MediaType.APPLICATION_JSON,
                             MediaType.APPLICATION_XML,
                             MediaType.APPLICATION_YML})
-    @Operation(summary = "Finds States by id",description = "Find a State by Acronym",
+    @Operation(summary = "Finds States by Acronym",description = "Find a State by Acronym",
             tags = {"State"},
                 responses = {
                     @ApiResponse(description = "Sucess", responseCode = "200",
@@ -103,6 +106,7 @@ public class StateResource implements Serializable {
         RequestState  requestState = service.findByAcronym(acronym);
         return ResponseEntity.ok().body(requestState);
     }
+    @CrossOrigin(origins = {"http://localhost:8080","http://sqrocket.com.br"})
     @PostMapping(consumes = {MediaType.APPLICATION_JSON,//params for content negotiation
                             MediaType.APPLICATION_XML,
                             MediaType.APPLICATION_YML},
